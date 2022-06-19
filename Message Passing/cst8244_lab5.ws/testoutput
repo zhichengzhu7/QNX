@@ -1,0 +1,53 @@
+
+
+Unit Test ID 1: ./calc_client
+Expected result: usage message of calc_client
+
+
+Unit Test ID 2: ./calc_client 3 2 + 3
+Expected result: error, as calc_client can't connect attached to processID 3 (proc/boot/pipe)
+
+
+Unit Test ID 3: ./calc_client 245771 2 + 3
+Expected result: 5.00 (normal case +)
+The server has calculated the result of 2 + 3 as 5.00
+
+
+Unit Test ID 4: ./calc_client 245771 2 - 3
+Expected result: -1.00 (normal case -)
+The server has calculated the result of 2 - 3 as -1.00
+
+
+Unit Test ID 5: ./calc_client 245771 2 x 3
+Expected result: 6.00 (normal case x)
+The server has calculated the result of 2 x 3 as 6.00
+
+
+Unit Test ID 6: ./calc_client 245771 22 / 7
+Expected result: 3.14 (normal case /; approx. of PI)
+The server has calculated the result of 22 / 7 as 0.67
+
+
+Unit Test ID 7: ./calc_client 245771 2 / 0
+Expected result: SRVR_UNDEFINED (handle divide by 0)
+
+Error message from server: UNDEFINED: 2 / 0 
+
+
+Unit Test ID 8: ./calc_client 245771 2 ? 3
+Expected result: SRVR_INVALID_OPERATOR (handle unsupported operator)
+
+Error message from server: INVALID OPERATOR: ? 
+
+
+Unit Test ID 9c: ./calc_client 245771 10000000000 + 1234567890
+Expected result: SRVR_OVERFLOW (handle overflow) on Client-side
+Known-Issue: If client does not check for overflow,
+             then left-operator will overflow as
+                  cli-argument exceeds INT_MAX.
+The server has calculated the result of 1410065408 + 1234567890 as -1650333998.00
+
+
+Unit Test ID 9s: ./calc_client 245771 1000000000 + 1234567890
+Expected result: SRVR_OVERFLOW (handle overflow) on Server-side
+The server has calculated the result of 1000000000 + 1234567890 as -2060399406.00
